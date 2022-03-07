@@ -66,6 +66,7 @@ def choose_secret_advanced(filename):
     """
     f = open(filename, mode="rt", encoding="utf-8")
     palabras = f.readlines()
+    f.close()
     listaValidas = []
     selected = []
     for palabra in palabras:
@@ -80,18 +81,25 @@ def choose_secret_advanced(filename):
     secret = random.choice(selected)
     return selected, secret.upper()
  
-def check_valid_word():
+def check_valid_word(selected):
     """Dada una lista de palabras, esta funciÃ³n pregunta al usuario que introduzca una palabra hasta que introduzca una que estÃ© en la lista. Esta palabra es la que devolverÃ¡ la funciÃ³n.
     Args:
       selected: Lista de palabras.
     Returns:
       word: Palabra introducida por el usuario que estÃ¡ en la lista.
     """
+    while True:
+        word = input("Introduce una nueva palabra: ")
+        for palabra in selected:
+            print(palabra)
+            if word == palabra:
+                return word
+
 if __name__ == "__main__":
     selected, secret = choose_secret_advanced("palabras_extended.txt")
     print("Palabra a adivinar: "+secret)#Debug: esto es para que sepas la palabra que debes adivinar
     print("Lista de palabras seleccionadas: ", selected)
-    for repeticiones in range(0,6):
+    """for repeticiones in range(0,6):
         word = input("Introduce una nueva palabra: ")
         same_position, same_letter = compare_words(word, secret)
         print("sPos=", same_position)
@@ -101,7 +109,8 @@ if __name__ == "__main__":
         if word == secret:
             print("HAS GANADO!!")
             exit()
-    print("LO SIENTO, NO LA HAS ADIVINIDADO. LA PALABRA ERA "+secret)   
+    print("LO SIENTO, NO LA HAS ADIVINIDADO. LA PALABRA ERA "+secret)   """
+    check_valid_word(selected)
 """
     secret=choose_secret("palabras_reduced.txt")
     print("Palabra a adivinar: "+secret)#Debug: esto es para que sepas la palabra que debes adivinar

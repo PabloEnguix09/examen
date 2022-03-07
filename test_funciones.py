@@ -31,6 +31,7 @@ def test_add_client():
     add_client(clients_list,'12343555F','Jacinto','Moraira','+34616124513','jacin@gmail.com')
     add_client(clients_list,'20555415M','Jaume','Gandia','+34652226215','soc_choume@gmail.com')
     assert len(clients_list) == 3
+    print(clients_list)
     assert clients_list['12343555F'] == {'name': 'Jacinto', 'address': 'Moraira', 'phone': '+34616124513', 'email': 'jacin@gmail.com'}
     assert clients_list['20555415M'] == {'name': 'Jaume', 'address': 'Gandia', 'phone': '+34652226215', 'email': 'soc_choume@gmail.com'}
     
