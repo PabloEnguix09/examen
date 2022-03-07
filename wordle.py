@@ -46,11 +46,15 @@ def print_word(word, same_letter_position, same_letter):
     """
     transformed = ""
     for letter in word:
-        for letterPos in len(same_letter_position):
-            if word.index(letter) == letterPos:
-                transformed += letter.lower()
+        if word.index(letter) in same_letter_position:
+            transformed += letter.upper()
+        elif word.index(letter) in same_letter:
+            transformed += letter.lower()
+        else:
+            transformed += "-"
+    return transformed
     
-def choose_secret_advanced():
+def choose_secret_advanced(filename):
     """Dado un nombre de fichero, esta funciÃ³n filtra solo las palabras de 5 letras que no tienen acentos (Ã¡,Ã©,Ã­,Ã³,Ãº). De estas palabras, la funciÃ³n devuelve una lista de 15 aleatorias no repetidas y una de estas 15, se selecciona aleatoriamente como palabra secret.
     Args:
       filename: El nombre del fichero. Ej. "palabras_extended.txt"
@@ -58,6 +62,14 @@ def choose_secret_advanced():
       selected: Lista de 15 palabras aleatorias no repetidas que tienen 5 letras y no tienen acentos
       secret: Palabra elegida aleatoriamente de la lista de 15 seleccionadas transformada a mayÃºsculas
     """
+    f = open(filename, mode="rt", encoding="utf-8")
+    palabras = f.readlines()
+    selected = []
+    for palabra in palabras:
+        if len(palabra) <= 5 and palabra.__contains__("á","é","í","ó","ú") == False:
+            selected.append(palabra)
+    secret = random.choice(selected)
+    return selected, secret
  
 def check_valid_word():
     """Dada una lista de palabras, esta funciÃ³n pregunta al usuario que introduzca una palabra hasta que introduzca una que estÃ© en la lista. Esta palabra es la que devolverÃ¡ la funciÃ³n.
@@ -75,7 +87,7 @@ if __name__ == "__main__":
         same_position, same_letter = compare_words(word, secret)
         print("sPos=", same_position)
         print("sLet=", same_letter)
-        resultado=print_word()
+        resultado=print_word(word, same_position, same_letter)
         print(resultado)
         if word == secret:
             print("HAS GANADO!!")
