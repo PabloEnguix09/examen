@@ -10,7 +10,9 @@ def choose_secret(filename):
       secret: Palabra elegida aleatoriamente del fichero transformada a mayÃºsculas. Ej. "CREMA"
     """
     f = open(filename, mode="rt", encoding="utf-8")
-    lineas = f.readlines()
+    lineas = []
+    for linea in f.readlines():
+        lineas.append(linea[:-1])
     secret = random.choice(lineas)
     f.close()
     return secret
@@ -65,13 +67,15 @@ def choose_secret_advanced(filename):
       secret: Palabra elegida aleatoriamente de la lista de 15 seleccionadas transformada a mayÃºsculas
     """
     f = open(filename, mode="rt", encoding="utf-8")
-    palabras = f.readlines()
+    lineas = []
+    for linea in f.readlines():
+        lineas.append(linea)
     f.close()
     listaValidas = []
     selected = []
-    for palabra in palabras:
+    for palabra in lineas:
         if len(palabra) == 6 and palabra.__contains__("á") == False and palabra.__contains__("é") == False and palabra.__contains__("í") == False and palabra.__contains__("ó") == False and palabra.__contains__("ú") == False:
-            listaValidas.append(palabra)
+            listaValidas.append(palabra[:-1])
     while True:
         palabra = random.choice(listaValidas)
         if palabra not in selected:
@@ -89,17 +93,17 @@ def check_valid_word(selected):
       word: Palabra introducida por el usuario que estÃ¡ en la lista.
     """
     while True:
-        word = input("Introduce una nueva palabra: ")
+        word = input("Introduce una palabra de la lista: ")
         for palabra in selected:
-            print(palabra)
             if word == palabra:
                 return word
 
 if __name__ == "__main__":
     selected, secret = choose_secret_advanced("palabras_extended.txt")
     print("Palabra a adivinar: "+secret)#Debug: esto es para que sepas la palabra que debes adivinar
-    print("Lista de palabras seleccionadas: ", selected)
-    """for repeticiones in range(0,6):
+    print("Lista de palabras seleccionadas: ", selected)#Debug: esto es para que sepas la lista de la que tienes que decir una palabra
+    check_valid_word(selected)
+    for repeticiones in range(0,6):
         word = input("Introduce una nueva palabra: ")
         same_position, same_letter = compare_words(word, secret)
         print("sPos=", same_position)
@@ -109,8 +113,7 @@ if __name__ == "__main__":
         if word == secret:
             print("HAS GANADO!!")
             exit()
-    print("LO SIENTO, NO LA HAS ADIVINIDADO. LA PALABRA ERA "+secret)   """
-    check_valid_word(selected)
+    print("LO SIENTO, NO LA HAS ADIVINIDADO. LA PALABRA ERA "+secret)
 """
     secret=choose_secret("palabras_reduced.txt")
     print("Palabra a adivinar: "+secret)#Debug: esto es para que sepas la palabra que debes adivinar
